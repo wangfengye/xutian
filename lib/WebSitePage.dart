@@ -7,7 +7,6 @@ import 'package:xutian/homePage.dart';
 class WebSitePage extends StatefulWidget {
   Website website;
 
-
   WebSitePage(this.website);
 
   @override
@@ -17,12 +16,26 @@ class WebSitePage extends StatefulWidget {
 class WebSitePageState extends State<WebSitePage> {
   String url;
   final flutterWebviewPlugin = new FlutterWebviewPlugin();
+
+  @override
+  void initState() {
+    print("website: initState");
+    super.initState();
+    url = widget.website.url;
+    flutterWebviewPlugin.onUrlChanged.listen((String url) {
+      this.url = url;
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    print("website: didChangeDependencies");
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
-    flutterWebviewPlugin.onUrlChanged.listen((String url){
-      this.url = url;
-      print("当前url: ${url}");
-    });
+    print("website: build --- $url");
     return new WebviewScaffold(
       appBar: new AppBar(
         title: new Text(widget.website.name),
@@ -31,8 +44,8 @@ class WebSitePageState extends State<WebSitePage> {
             icon: const Icon(Icons.cast_connected),
             onPressed: () {
               print("点击: ${widget.website.url}");
-              Navigator.push(context,
-                  new MaterialPageRoute(builder: (BuildContext context) {
+              Navigator.of(context)
+                  .push(new MaterialPageRoute(builder: (BuildContext context) {
                 return new AnalysisPage(url);
               }));
             },
@@ -40,7 +53,7 @@ class WebSitePageState extends State<WebSitePage> {
           )
         ],
       ),
-      url: widget.website.url,
+      url: url,
       withJavascript: true,
       // 允许运行js
       withLocalStorage: true,
@@ -49,5 +62,25 @@ class WebSitePageState extends State<WebSitePage> {
       // 不允许缩放
       clearCache: true,
     );
+  }
+
+  @override
+  void didUpdateWidget(WebSitePage oldWidget) {
+    print("website: didUpdateWidget");
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void deactivate() {
+    print("website: deactivate");
+    super.deactivate();
+  }
+
+  @override
+  void dispose() {
+    print("website: dispose");
+
+    super.dispose();
+    flutterWebviewPlugin.dispose();
   }
 }

@@ -3,8 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:xutian/WebSitePage.dart';
 
 class HomePage extends StatelessWidget {
-  void goSetting() {
+  void goSetting(BuildContext context) {
     print('暂未实现功能');
+    Scaffold.of(context)
+        .showSnackBar(new SnackBar(content: new Text("暂未实现功能")));
   }
 
   goDetail(Website website, BuildContext context) {
@@ -25,8 +27,11 @@ class HomePage extends StatelessWidget {
         appBar: new AppBar(
           title: const Text('视频网站'),
           actions: <Widget>[
-            new IconButton(
-                icon: const Icon(Icons.settings), onPressed: goSetting)
+            new Builder(builder: (BuildContext context) {
+              return new IconButton(
+                  icon: const Icon(Icons.settings),
+                  onPressed: () => goSetting(context));
+            })
           ],
         ),
         body: new ListView(

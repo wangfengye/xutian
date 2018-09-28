@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:xutian/WebSitePage.dart';
@@ -17,6 +19,9 @@ class AnalysisListState extends State<AnalysisList> {
         builder: (context, snapshot) {
          // var vips = snapshot.toString().dec
         });
+  }
+  Future<String> loadFile(String filePath) async{
+    return await rootBundle.loadString(filePath);
   }
 }
 
