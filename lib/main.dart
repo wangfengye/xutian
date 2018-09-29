@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xutian/AnalysisPage.dart';
 import 'package:xutian/WebSitePage.dart';
+import 'package:xutian/analysisList.dart';
 import 'package:xutian/homePage.dart';
 
 void main() => runApp(new MyApp());

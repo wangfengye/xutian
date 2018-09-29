@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
@@ -17,12 +19,15 @@ class WebSitePageState extends State<WebSitePage> {
   String url;
   final flutterWebviewPlugin = new FlutterWebviewPlugin();
 
+  StreamSubscription<String> urlChangedListener;
+
   @override
   void initState() {
     print("website: initState");
     super.initState();
+    flutterWebviewPlugin.close();
     url = widget.website.url;
-    flutterWebviewPlugin.onUrlChanged.listen((String url) {
+    urlChangedListener = flutterWebviewPlugin.onUrlChanged.listen((String url) {
       this.url = url;
     });
   }
@@ -44,8 +49,8 @@ class WebSitePageState extends State<WebSitePage> {
             icon: const Icon(Icons.cast_connected),
             onPressed: () {
               print("点击: ${widget.website.url}");
-              Navigator.of(context)
-                  .push(new MaterialPageRoute(builder: (BuildContext context) {
+              Navigator
+                  .push(context,new MaterialPageRoute(builder: (BuildContext context) {
                 return new AnalysisPage(url);
               }));
             },
@@ -53,7 +58,7 @@ class WebSitePageState extends State<WebSitePage> {
           )
         ],
       ),
-      url: url,
+      url: widget.website.url,
       withJavascript: true,
       // 允许运行js
       withLocalStorage: true,
@@ -79,8 +84,9 @@ class WebSitePageState extends State<WebSitePage> {
   @override
   void dispose() {
     print("website: dispose");
-
-    super.dispose();
+    urlChangedListener.cancel();
+    flutterWebviewPlugin.close();
     flutterWebviewPlugin.dispose();
+    super.dispose();
   }
 }

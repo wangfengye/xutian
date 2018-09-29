@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:xutian/WebSitePage.dart';
+import 'package:xutian/WebView.dart';
+import 'package:xutian/analysisList.dart';
 
 class HomePage extends StatelessWidget {
   void goSetting(BuildContext context) {
     print('暂未实现功能');
+    // snackbar
     Scaffold.of(context)
         .showSnackBar(new SnackBar(content: new Text("暂未实现功能")));
   }
@@ -13,7 +16,8 @@ class HomePage extends StatelessWidget {
     //"https://v.qq.com/",
     Navigator.push(context,
         new MaterialPageRoute(builder: (BuildContext context) {
-      return new WebSitePage(website);
+          return new WebSitePage(website);
+      //return new WebView(website.url);
     }));
   }
 
@@ -21,12 +25,11 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return new Scaffold(
         appBar: new AppBar(
           title: const Text('视频网站'),
           actions: <Widget>[
+
             new Builder(builder: (BuildContext context) {
               return new IconButton(
                   icon: const Icon(Icons.settings),
